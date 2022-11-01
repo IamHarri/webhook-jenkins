@@ -3,12 +3,14 @@ pipeline {
     stages {
         stage("build"){
             steps{
-                echo "build stage"
+                sh '''
+                    docker compose -f docker-compose.yml build
+                '''
             }
         }
-        stage("test"){
+        stage("deploy"){
             steps{
-                echo "test stage"
+                sh "docker compose -f docker-compose.yml  up"
             }
         }
     }
