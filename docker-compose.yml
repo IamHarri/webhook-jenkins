@@ -3,27 +3,25 @@ services:
   quickappdb:
       image: "mcr.microsoft.com/mssql/server:2022-latest"
       container_name: quickappdb 
+      user: root
       networks:
         - appnet
-      # networks:
-      #   quicknet:
-      #      ipv4_address: 172.28.0.2
+      ports:
+        - "1433:1433"
       environment:
-        - SA_PASSWORD=B@oL0ng@123456
+        - SA_PASSWORD=DevOps@123
         - ACCEPT_EULA=Y
   app:
       image: "quickapp"
       networks:
         - appnet
-      # networks:
-      #   quicknet:
-      #     ipv4_address: 172.28.0.4
       container_name: angular_app
       build:
         context: .
         dockerfile: Dockerfile
       depends_on:
         - quickappdb
+      restart: always
       ports:
         - "80:5000"  
         - "443:5001"
@@ -32,14 +30,8 @@ services:
         - ASPNETCORE_Kestrel__Certificates__Default__Password=B@oL0ng@123456
         - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx 
         - ASPNETCORE_ENVIRONMENT=Development
-        - ConnectionStrings_DefaultConnection="Server=quickappdb;Database=QuickApp1;USER=sa;Password=B@oL0ng@123456;MultipleActiveResultSets=true"
+        - ConnectionStrings__DefaultConnection=Server=quickappdb;Database=QuickApp1;USER=sa;Password=DevOps@123;MultipleActiveResultSets=true
 networks:
   appnet:
-# networks:
-  # quicknet:
-  #   driver: bridge
-  #   ipam:
-  #     config:
-  #       - subnet: 172.28.0.0/16
-  #         ip_range: 172.28.0.0/24
-  #         gateway: 172.28.0.255
+    name: appnet
+    external: false
