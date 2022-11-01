@@ -1,3 +1,5 @@
+#  Note
+with docker should add user  to group and add permission socker sudo chmod 666 /var/run/docker.sock
 # **QuickApp** - ASPNET Core 6 / Angular 14 project template
 [![MIT license](https://cdn.rawgit.com/emonney/tempa/7e9d69ad/MITLicense.png)](https://github.com/emonney/QuickApp/blob/master/LICENSE)
 [![VSIX Downloads](https://img.shields.io/visual-studio-marketplace/d/adentum.QuickApp-ASPNETCoreAngularXProjectTemplate)](https://marketplace.visualstudio.com/items?itemName=adentum.QuickApp-ASPNETCoreAngularXProjectTemplate)
