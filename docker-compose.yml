@@ -1,8 +1,10 @@
 version: "3.3"
 services:
-  db:
+  quickappdb:
       image: "mcr.microsoft.com/mssql/server:2022-latest"
       container_name: quickappdb 
+      networks:
+        - appnet
       # networks:
       #   quicknet:
       #      ipv4_address: 172.28.0.2
@@ -11,6 +13,8 @@ services:
         - ACCEPT_EULA=Y
   app:
       image: "quickapp"
+      networks:
+        - appnet
       # networks:
       #   quicknet:
       #     ipv4_address: 172.28.0.4
@@ -19,7 +23,7 @@ services:
         context: .
         dockerfile: Dockerfile
       depends_on:
-        - db
+        - quickappdb
       ports:
         - "80:5000"  
         - "443:5001"
@@ -28,8 +32,9 @@ services:
         - ASPNETCORE_Kestrel__Certificates__Default__Password=B@oL0ng@123456
         - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx 
         - ASPNETCORE_ENVIRONMENT=Development
-        - ConnectionStrings_DefaultConnection="Server=db,1433;Database=QuickApp;USER=sa;Password=B@oL0ng@123456;MultipleActiveResultSets=true"
-
+        - ConnectionStrings_DefaultConnection="Server=quickappdb;Database=QuickApp1;USER=sa;Password=B@oL0ng@123456;MultipleActiveResultSets=true"
+networks:
+  appnet:
 # networks:
   # quicknet:
   #   driver: bridge
