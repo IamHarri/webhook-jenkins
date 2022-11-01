@@ -33,5 +33,5 @@ services:
         - ConnectionStrings__DefaultConnection=Server=quickappdb;Database=QuickApp1;USER=sa;Password=DevOps@123;MultipleActiveResultSets=true
 networks:
   appnet:
-    name: appnet
-    external: false
+    # name: appnet
+    # external: false
